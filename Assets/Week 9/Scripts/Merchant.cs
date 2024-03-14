@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class Merchants : Villager
 {
-    
+    public override ChestType CanOpen()
+    {
+        return ChestType.Merchant;
+    }
 }
