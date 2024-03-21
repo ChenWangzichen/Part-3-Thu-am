@@ -24,16 +24,14 @@ public class Building : MonoBehaviour
         basket.transform.localScale = Vector3.zero;
         kettle.transform.localScale = Vector3.zero;
         bottle.transform.localScale = Vector3.zero;
-        StartCoroutine(ScaleBasket());
-        //StartCoroutine(PutOutThings(kettle, kettleE));
-        //StartCoroutine(PutOutThings(bottle, bottleE));
+        StartCoroutine(BuildIn());
+        
         
     }
 
     void Update()
     {
         duration += Time.deltaTime * speed;
-
     }
 
     IEnumerator ScaleBasket()
@@ -46,30 +44,8 @@ public class Building : MonoBehaviour
         }
         duration = 0;
 
-        while (kettle.transform.localScale.x < 1 && kettle.transform.position != kettleE)
-        {
-            interpolation = animationCurve.Evaluate(duration);
-            kettle.transform.position = Vector3.Lerp(Vector3.zero, kettleE, interpolation);
-            kettle.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, interpolation);
-            yield return null;
-        }
-        duration = 0;
-
-        while (bottle.transform.localScale.x < 1 && bottle.transform.position != bottleE)
-        {
-            interpolation = animationCurve.Evaluate(duration);
-            bottle.transform.position = Vector3.Lerp(Vector3.zero, bottleE, interpolation);
-            bottle.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, interpolation);
-            yield return null;
-        }
-        duration = 0;
-
-        //StartCoroutine(PutOutThings(kettle, kettleE));
-        //StartCoroutine(PutOutThings(bottle, bottleE));
-
-
     }
-    /*IEnumerator PutOutThings(GameObject thing, Vector3 end)
+    IEnumerator PutOutThings(GameObject thing, Vector3 end)
     {
         while(thing.transform.localScale.x < 1 && thing.transform.position != end)
         {
@@ -79,5 +55,12 @@ public class Building : MonoBehaviour
             yield return null;
         }
         duration = 0;
-    }*/
+    }
+
+    IEnumerator BuildIn()
+    {
+        yield return StartCoroutine(ScaleBasket());
+        yield return StartCoroutine(PutOutThings(kettle, kettleE));
+        yield return StartCoroutine(PutOutThings(bottle,bottleE));
+    }
 }
