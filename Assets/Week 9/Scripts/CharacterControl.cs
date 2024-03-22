@@ -39,6 +39,11 @@ public class CharacterControl : MonoBehaviour
         SelectV(0);
     }
 
+    public void SliderValueChanged(Single value)
+    {
+        SelectedVillager.transform.localScale = Vector3.one * value;
+    }
+
     //private void Update()
     //{
     //    if(SelectedVillager != null)
