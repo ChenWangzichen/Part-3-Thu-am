@@ -4,7 +4,8 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -21,10 +22,14 @@ public class Player : MonoBehaviour
     
     Coroutine shooting;
     bool isShooting = false;
+
+    float health = 5;
+    public Slider healthBar;
     // Start is called before the first frame update
     void Start()
     {
         rb=GetComponent<Rigidbody2D>();
+        healthBar.value = healthBar.maxValue = health;
     }
 
     private void FixedUpdate()
@@ -54,6 +59,16 @@ public class Player : MonoBehaviour
         while (isShooting){
             Instantiate(bulletPrefab,transform.position,transform.rotation);
             yield return new WaitForSeconds(shootingInterval);
+        }
+    }
+
+    void takeDamage(float damage)
+    {
+        health -= damage;
+        healthBar.value = health;
+        if (health <= 0)
+        {
+            SceneManager.LoadScene(2);
         }
     }
 }

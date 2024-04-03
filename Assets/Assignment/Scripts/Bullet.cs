@@ -27,6 +27,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        collision.gameObject.SendMessage("takeDamage", 1, SendMessageOptions.DontRequireReceiver);
         Destroy(gameObject);
     }
     public void setDirection(Vector2 dir)

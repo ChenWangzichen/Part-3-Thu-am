@@ -10,6 +10,7 @@ public class DiffusionBullet : EnemyBullet
         {
             Vector3 point = new Vector3(Random.Range(-5, 5), Random.Range(0, 6), 0);
             Instantiate(bulletPrefab, point, Quaternion.identity);
+            BulletCount.AddBulletCount();
             yield return new WaitForSeconds(Random.Range(1, 10));
         }
     }

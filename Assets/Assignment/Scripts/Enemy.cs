@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class Enemy : MonoBehaviour
     public float speed = 5f;
     Vector2 targetPos;
     Vector2 move;
+    static float health = 100;
+    public Slider healthBar;
 
     public GameObject followBulletPrefab;
 
@@ -17,19 +21,8 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         StartCoroutine(Movement());
+        healthBar.value=healthBar.maxValue=health; 
     }
-
-    private void FixedUpdate()
-    {
-        
-        
-    }
-    private void Update()
-    {
-        
-    }
-
-    // Update is called once per frame
 
     IEnumerator Movement()
     {
@@ -44,8 +37,24 @@ public class Enemy : MonoBehaviour
             }
             //move = Vector2.zero;
             Instantiate(followBulletPrefab,transform.position,transform.rotation);
+            BulletCount.AddBulletCount();
             yield return new WaitForSeconds(3);
         }
     }
+
+    void takeDamage(float damage)
+    {
+        health -= damage;
+        healthBar.value = health;
+        if (health <= 0)
+        {
+            SceneManager.LoadScene(2);
+        }
+    }
+
+    
+
+
+
 
 }
