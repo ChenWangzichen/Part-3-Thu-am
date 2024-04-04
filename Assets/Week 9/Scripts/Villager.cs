@@ -16,6 +16,8 @@ public class Villager : MonoBehaviour
     Vector2 movement;
     protected float speed = 3;
 
+    public ParticleSystem dust;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -43,14 +45,16 @@ public class Villager : MonoBehaviour
     private void FixedUpdate()
     {
         movement = destination - (Vector2)transform.position;
-
+        CreateDust();
         //flip the x direction of the game object & children to face the direction we're walking
         if(movement.x > 0)
         {
+            //CreateDust();
             transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (movement.x < 0)
         {
+            //CreateDust();
             transform.localScale = new Vector3(1, 1, 1);
         }
 
@@ -59,6 +63,7 @@ public class Villager : MonoBehaviour
         {
             movement = Vector2.zero;
             speed = 3;
+            StopDust();
         }
 
         rb.MovePosition(rb.position + movement.normalized * speed * Time.deltaTime);
@@ -78,16 +83,28 @@ public class Villager : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && isSelected)
         {
             Attack();
+            CreateDust();
         }
     }
 
     protected virtual void Attack()
     {
         animator.SetTrigger("Attack");
+        
     }
 
     public virtual ChestType CanOpen()
     {
         return ChestType.Villager;
+    }
+
+    void CreateDust()
+    {
+        dust.Play();
+    }
+
+    void StopDust()
+    {
+        dust.Stop();
     }
 }
